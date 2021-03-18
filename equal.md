@@ -93,10 +93,76 @@
     B instanceof A;				//false，左边应为一个实例对象
     ```
 
-* 实现instanceof
+* 实现`instanceof`
 
-  * ```
+  * ```javascript
+    function instance_of(a, b) {
+            if (typeof a !== 'object') {
+            throw('reght is not object')
+            }
     
+            if (typeof b !== 'function'){
+                throw('left is not function');
+            }
+    
+            const cPrototype = b.prototype;
+            let oPrototype = Object.getPrototypeOf(a);
+    
+            while(cPrototype !== oPrototype){
+               if(oPrototype === Object.prototype){
+                    return false;
+               }
+               oPrototype = Object.getPrototypeOf(oPrototype)     
+            }
+    
+            return true;
+    }
+    ```
+    
+
+
+
+## SaveValue
+
+* `SameValue`算法为JavaScript内部计算方法，无法调用，其可调用实现为：`Object.is(x,y);`
+
+* 规则：
+
+  1. 如果 `Type(x)` 与 `Type(y)` 的结果不一致，返回` false`，否则
+  2. 如果 `Type(x) `结果为 `Undefined`，返回 `true`
+  3. 如果 `Type(x) `结果为 `Null`，返回 `true`
+  4. 如果 `Type(x)` 结果为` Number`，则如果 `x` 为 `NaN`，且 `y` 也为 `NaN`，返回 `true`如果 `x` 为 `+0`，`y `为 `-0`，返回 `false`如果 `x` 为 `-0`，`y `为 `+0`，返回 `false`如果 `x` 与 `y` 为同一个数字，返回 `true`返回 `false`
+  5. 如果 `Type(x)` 结果为 `String`，如果 `x `与 `y` 为完全相同的字符序列（相同的长度和相同的字符对应相同的位置），返回 `true`，否则，返回 `false`
+  6. 如果 `Type(x)` 结果为 `Boolean`，如果 `x` 与 `y` 都为 `true` 或 `false`，则返回 `true`，否则，返回 `false`
+  7. 如果 `x` 和 `y `引用到同一个 `Object` 对象，返回 `true`，否则，返回 `false`
+
+* 案例：
+
+  * ```javascript
+    SameValue(NAN,NAN);				//true
+    SameValue(0,-0);				//false
     ```
 
+## SameValueZero
+
+* 与SameValue类似，但是0和-0返回true。Map与Set使用SameValueZero判断key
+
+* 案例
+
+  * ```javascript
+    SameValueZero(NAN,NAN);				//true
+    SameValueZero(0,-0);				//true
     
+    //map类中的SameValueZero
+    const map = new Map();
+    const obj = {};
+    map.set(0,1);
+    map.set(obj,2);
+    map.has(-0);						//true
+    map.has(obj);						//true
+    obj.a = 'a';
+    map.has(obj);						//true
+    ```
+
+
+

@@ -12,8 +12,24 @@
     <script>
         function instance_of(a, b) {
             if (typeof a !== 'object') {
-                throw('')
+                throw('reght is not object')
             }
+
+            if (typeof b !== 'function'){
+                throw('left is not function');
+            }
+
+            const cPrototype = b.prototype;
+            let oPrototype = Object.getPrototypeOf(a);
+
+            while(cPrototype !== oPrototype){
+                if(oPrototype === Object.prototype){
+                    return false;
+                }
+                oPrototype = Object.getPrototypeOf(oPrototype);
+            }
+
+            return true;
         }
 
         function A() {
@@ -24,8 +40,18 @@
             b = 2;
         }
 
-        //B继承A
+        class c{
+            constructor(){
+                this.c = 'c';
+            }
+        }
+
+
+
         B.prototype = new A();
+        //B继承A
+        console.log(typeof c);
+        console.log(instance_of(new B(),A));
 
     </script>
 </body>
