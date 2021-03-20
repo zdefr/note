@@ -10,49 +10,7 @@
 
 <body>
     <script>
-        function instance_of(a, b) {
-            if (typeof a !== 'object') {
-                throw('reght is not object')
-            }
-
-            if (typeof b !== 'function'){
-                throw('left is not function');
-            }
-
-            const cPrototype = b.prototype;
-            let oPrototype = Object.getPrototypeOf(a);
-
-            while(cPrototype !== oPrototype){
-                if(oPrototype === Object.prototype){
-                    return false;
-                }
-                oPrototype = Object.getPrototypeOf(oPrototype);
-            }
-
-            return true;
-        }
-
-        function A() {
-            a = 1;
-        }
-
-        function B() {
-            b = 2;
-        }
-
-        class c{
-            constructor(){
-                this.c = 'c';
-            }
-        }
-
-
-
-        B.prototype = new A();
-        //B继承A
-        console.log(typeof c);
-        console.log(instance_of(new B(),A));
-
+        
     </script>
 </body>
 
