@@ -10,7 +10,30 @@
 
 <body>
     <script>
-        
+        var permute = function (nums) {
+            if (nums.length === 2) {
+                return [
+                    [nums[0], nums[1]],
+                    [nums[1], nums[0]]
+                ]
+            }
+
+            let rel = [];
+            for (let i = 0; i < nums.length; i++) {
+                let mid = nums[i];
+                nums.splice(i, 1)
+                permute(nums).forEach((arr) => {
+                    arr.push(mid);
+                    rel.push(arr);
+                })
+                nums.splice(i, 0, mid);
+            }
+
+            return rel;
+        };
+
+        let arr = [1,2,3];
+        console.log(permute(arr));
     </script>
 </body>
 
